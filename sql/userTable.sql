@@ -1,1 +1,7 @@
-CREATE TABLE
+CREATE TABLE user (
+  `id` INT NOT NULL PRIMARY KEY,
+  `fName` VARCHAR(50) NOT NULL,
+  `lName` VARCHAR(50) NOT NULL,
+  `email` VARCHAR(255) UNIQUE NOT NULL,
+  `password` CHAR(60)
+);
