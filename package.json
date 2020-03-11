@@ -2,19 +2,21 @@
   "name": "modulethreeprojectjs",
   "version": "1.0.0",
   "description": "Vacation Property Website",
-  "main": "server.js",
+  "main": "app.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/X3llus/JavaScriptModuleThree.git"
   },
   "private": true,
   "scripts": {
-    "start": "node server.js"
+    "start": "node app.js"
   },
   "author": "Braden Coates",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^4.0.1",
     "express": "^4.17.1",
+    "express-session": "^1.17.0",
     "mysql": "^2.18.1"
   }
 }
