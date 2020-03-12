@@ -1,5 +1,5 @@
 CREATE TABLE rating (
-  `id` int not null PRIMARY KEY,
+  `id` int not null PRIMARY KEY AUTO_INCREMENT,
   `userId` int not null,
   `propertyId` int not null,
   `rating` int not null,

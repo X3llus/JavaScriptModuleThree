@@ -1,5 +1,5 @@
 CREATE TABLE properties (
-  `id` INT NOT NULL PRIMARY KEY,
+  `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `ownerId` INT NOT NULL,
   `title` VARCHAR(40) NOT NULL,
   `price` DEC(6,2) NOT NULL,
@@ -8,5 +8,6 @@ CREATE TABLE properties (
   `bathrooms` INT NOT NULL,
   `image` VARCHAR(50) NOT NULL,
   `ammenities` TEXT NOT NULL,
+  `discount` char(1) default 'f',
   FOREIGN KEY (ownerId) REFERENCES users (id)
 )
