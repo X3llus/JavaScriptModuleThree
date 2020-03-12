@@ -19,6 +19,7 @@ app.use(bodyParser.json());
 // Making routes
 app.use("/", indexRoute);
 app.use("/signup", signupRoute);
+app.use("/login", loginRoute);
 
 // Listening for connections
 app.listen(8080, () => console.log("listening on port 8080"));
