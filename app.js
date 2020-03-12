@@ -1,34 +1,24 @@
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------//
-// Security stuff
-const bcrypt = require('bcrypt');
-const saltRounds = 12;
-// const auth = require('./auth.json');
+// All express requirements
+const express = require("express");
+const bodyParser = require("body-parser")
+const session = require("express-session");
 
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------//
-// Code to listen for requests using Express Framework
-const express = require('express');
-const index = require('./routes/index.js');
-const bodyParser = require('body-parser')
-const cookieParser = require('cookie-parser');
-const session = require('express-session');
+// All routes
+const indexRoute = require("./routes/index.js");
+const signupRoute = require("./routes/signup.js");
+const loginRoute = require("./routes/signup.js")
+
+// Setting up the express app
 const app = express();
-
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({
   extended: false
 }));
 app.use(bodyParser.json());
 
-app.use('/', index);
+// Making routes
+app.use("/", indexRoute);
+app.use("/signup", signupRoute);
 
+// Listening for connections
 app.listen(8080, () => console.log("listening on port 8080"));
-
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------//
-// MySQL connection
-// const mysql = require('mysql');
-// var pool = mysql.createPool({
-//   connectionLimit: 100,
-//   host: "localhost",
-//   user: auth.username,
-//   password: auth.password
-// });
