@@ -15,7 +15,7 @@ class Property {
   }
 
   get availability() {
-
+    
   }
 
   get display() {
@@ -32,9 +32,8 @@ class Property {
 
 }
 
-class PersonalProperty extends Property {
-  constructor(title, price, owner, location, bedrooms, bathrooms) {
-    super(title, price, owner, location, bedrooms, bathrooms);
+class DiscountProperty extends Property {
+  constructor() {
 
   }
 }

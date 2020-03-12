@@ -2,9 +2,36 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="css/master.css">
+    <link rel="stylesheet" href="css/signUpIn.css">
   </head>
   <body>
-    <h1>signup</h1>
+    <header>
+      <nav>
+        <h1>Paradise Rentals</h1>
+        <a href="/" id="active">Home</a>
+        <a href="/info">Info</a>
+        <a href="mailto:contact@vrent.com?subject=feedback">Contact</a>
+        <div id='account'></div>
+      </nav>
+    </header>
+    <main>
+      <h2>Sign Up</h2>
+      <form class="" action="" method="post">
+        <input type="text" name="firstName" placeholder="First Name" required>
+        <input type="text" name="lastName" placeholder="Last Name" required>
+        <input type="email" name="email" placeholder="E-mail" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <input type="password" name="passwordConfirm" placeholder="Confirm Password" required>
+        <input type="submit" value="Sign up">
+      </form>
+      <p>Already have an account? <a href ="/login">login</a></p>
+    </main>
+<footer>
+      <a href="/">Home</a>
+      <a href="/info">Info</a>
+      <a href="mailto:contact@vrent.com?subject=feedback">Contact</a>
+    </footer>
   </body>
 </html>
