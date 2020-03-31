@@ -1,17 +1,18 @@
-// makes request to server to get all properties
+// request to server to get all properties belonging to user
 function getProperties() {
   var xml = new XMLHttpRequest();
   xml.overrideMimeType("application/json");
-  xml.open('GET', 'properties', true);
+  xml.open('POST', 'profile', true);
   xml.onreadystatechange =  () => {
     if (xml.readyState == 4 && xml.status == 200) {
+      console.log(xml.responseText);
       buildPropertyList(JSON.parse(xml.responseText));
     }
   };
   xml.send(null);
 }
 
-// function to build out a list of properties and display them to the user
+// funciton to build a list of properties and display it
 function buildPropertyList(list) {
 
   var properties = [];
@@ -25,9 +26,12 @@ function buildPropertyList(list) {
     }
     document.querySelector("ul").appendChild(properties[i].displayList);
   }
+
+  document.getElementById("name").textContent = list[0].fName + " " + list[0].lName;
+
 }
 
-// calls function
+// call function
 getProperties();
 
 // property class
@@ -63,19 +67,22 @@ class Property {
     var descriptionNode = document.createElement("p");
     var divNode = document.createElement("div");
     var divNode2 = document.createElement("div");
+    var deleteNode = document.createElement("a");
 
     imageNode.setAttribute("src", `images/${this.image}`);
     imageNode.setAttribute("height", "192px");
     imageNode.setAttribute("width", "192px");
     anchorNode.setAttribute("href", `/details?property=${this.id}`);
+    deleteNode.setAttribute("href", "/delete?property=" + this.id);
+    deleteNode.setAttribute("onclick", "return confirm('Are you sure?')");
+    deleteNode.setAttribute("class", "delete")
 
     titleNode.textContent = this.title;
     priceNode.textContent = "$" + this.price;
     ratingNode.textContent = this.rating;
     locationNode.textContent = this.location;
     descriptionNode.textContent = this.description;
-
-
+    deleteNode.textContent = "DELETE"
 
     divNode.appendChild(titleNode);
     if (this.superhost == "t") {
@@ -86,6 +93,7 @@ class Property {
     }
     divNode.appendChild(priceNode);
     divNode.appendChild(ratingNode);
+    divNode.appendChild(deleteNode);
     divNode2.appendChild(divNode);
     divNode2.appendChild(locationNode);
     divNode2.appendChild(descriptionNode);
@@ -94,6 +102,7 @@ class Property {
     node.appendChild(anchorNode);
 
     return node;
+
   }
 }
 

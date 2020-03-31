@@ -1,9 +1,13 @@
 nav {
   display: flex;
   justify-content: space-between;
-  width: 50%;
   text-decoration: none;
-  vertical-align: middle;
+  padding-right: 2em;
+}
+
+nav div {
+  display: flex;
+  justify-content: space-around;
 }
 
 nav a {
@@ -21,9 +25,9 @@ nav a:hover {
 }
 
 footer {
-  position: absolute;
-  bottom: 0;
-  height: 2.5rem;
+  /* position: absolute; */
+  /* bottom: 0; */
+  height: 5.4rem;
   display: flex;
   justify-content: space-around;
   width: 100%;
@@ -34,10 +38,17 @@ h1 {
   font-family: "Dosis", "Poppins", sans-serif;
   font-size: 4em;
   margin-left: 1em;
+  margin-right: 0.5em;
 }
 
 body {
   background-color: #fff4d8;
+  position: relative;
+  min-height: 100vh;
+  /* padding-bottom: 2em; */
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
 }
 
 header, footer {
@@ -49,4 +60,38 @@ form {
   padding-bottom: 1em;
   width: 33%;
   border-bottom: 0.5px solid black;
+}
+
+main {
+  padding-bottom: 2.5rem
+}
+
+footer div:first-child {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+footer div a {
+    text-decoration: none;
+    padding: 0.5em;
+    color: black;
+}
+
+footer div a:hover {
+  color: #4f7cac;
+  background-color: #2b3835;
+}
+
+.delete {
+  padding: 0.5em;
+  border: black solid 1.5px;
+}
+
+.delete:hover {
+  background-color: #ff4545;
+}
+
+section {
+  margin-left: 4em;
 }

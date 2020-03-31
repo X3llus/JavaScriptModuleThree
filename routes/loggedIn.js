@@ -1,11 +1,14 @@
 // requirements
 var express = require("express");
 var router = express.Router();
-var path = require("path");
 
-// GET request to /
+// GET request to /loggedIn
 router.get("/", (req, res) => {
-  res.sendFile(path.resolve(__dirname + "/../html/index.html"));
+  if (req.session.userId) {
+    res.send(true);
+  } else {
+    res.send(false);
+  }
 });
 
 module.exports = router;

@@ -6,26 +6,30 @@
     <link href="https://fonts.googleapis.com/css?family=Dosis:600|Poppins&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/master.css">
-    <script src="javascript/index.js" charset="utf-8" defer></script>
+    <link rel="stylesheet" href="css/details.css">
+    <script src="javascript/header.js" charset="utf-8" defer></script>
+    <script src="javascript/details.js" charset="utf-8" defer></script>
   </head>
   <body>
     <header>
       <nav>
-        <h1>Paradise Rentals</h1>
-        <a href="/" id="active">Home</a>
-        <a href="/info">Info</a>
-        <a href="mailto:contact@vrent.com?subject=feedback">Contact</a>
-        <div id='account'></div>
+        <div>
+          <h1>Paradise Rentals</h1>
+          <a href="/" id="active">Home</a>
+          <a href="/info">Info</a>
+          <a href="mailto:contact@paradiseRentals.com?subject=feedback">Contact</a>
+        </div>
+        <div id="account"></div>
       </nav>
     </header>
     <main>
       <h2 id="title">Title</h2>
       <h3 id="owner">owner</h3>
-      <img src="" alt="">
+      <img width="512" height="512">
       <ul>
         <li id="price">Price: </li>
         <li id="location">Location: </li>
-        <li id="rating">Rating: </li>
+        <li id="rating">No Ratings</li>
         <li id="bedrooms">Bedrooms: </li>
         <li id= bathrooms>Bathrooms: </li>
       </ul>
@@ -33,13 +37,13 @@
       <p id="description"></p>
       <h3>Amenities</h3>
       <p id="amenities"></p>
-      <h3>Bookings</h3>
-      <form class="" action="" method="post">
+
+      <form action="/book" method="post">
+        <h3>Bookings</h3>
         <fieldset>
-          <label for="startDate">Start Date:</label>
-          <input type="date" name="startDate">
-          <label for="endDate">End Date:</label>
-          <input type="date" name="endDate">
+          <label for="startDate">Dates:</label>
+          <select id="dates" name="dates"></select>
+          <input type="hidden" name="propertyId">
         </fieldset>
         <fieldset>
           <label for="payment">Payment:</label>
@@ -56,21 +60,28 @@
         </fieldset>
         <input type="submit" value="Book">
       </form>
-      <h3>Review</h3>
-      <form class="" action="" method="post">
+
+      <form action="/review" method="post">
+        <h3>Review</h3>
         <fieldset>
           <label for="review">Review</label>
           <input type="text" name="review">
           <label for="rating">Rating</label>
-          <input type="number" name="rating">
+          <input type="number" name="rating" min=1 max=5>
+          <input type="hidden" name="propertyId">
         </fieldset>
         <input type="submit" value="Leave Review">
       </form>
     </main>
     <footer>
-      <a href="/">Home</a>
-      <a href="/info">Info</a>
-      <a href="mailto:contact@vrent.com?subject=feedback">Contact</a>
+      <div>
+        <a href="/">Home</a>
+        <a href="/info">Info</a>
+      </div>
+      <div>
+        <p>Phone: (987)654-3210</p>
+        <p>Email: parasise.rental@gmail.com</p>
+      </div>
     </footer>
   </body>
 </html>

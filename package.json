@@ -15,8 +15,14 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^4.0.1",
+    "email-validator": "^2.0.4",
     "express": "^4.17.1",
+    "express-formidable": "^1.2.0",
     "express-session": "^1.17.0",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "session-file-store": "^1.4.0",
+    "uuid": "^7.0.2"
   }
 }

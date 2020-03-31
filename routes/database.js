@@ -1,3 +1,4 @@
+// Database pool connection
 const auth = require("../auth.json");
 const mysql = require("mysql");
 exports.pool = mysql.createPool({

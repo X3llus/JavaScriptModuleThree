@@ -1,0 +1,32 @@
+input {
+  display: block;
+  margin: 10px auto;
+  width: 80%;
+}
+
+input[type=submit] {
+  width: 20%;
+}
+
+input[type=checkbox] {
+  display: inline;
+  width: 1em;
+}
+
+form {
+  background-color:white;
+  border: 1px solid black;
+  border-radius: 2em;
+  padding: 1em;
+  width: 45%;
+  margin-left: 27.5%;
+}
+
+h2, p {
+  width: 30%;
+  margin-left: 35%;
+}
+
+h2 {
+  font-size: 3em;
+}

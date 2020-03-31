@@ -1,0 +1,40 @@
+main {
+  border-radius: 2em;
+  padding: 1em;
+  width: 50%;
+  margin-left: 25%;
+  font-family: "Dosis", "Poppins", sans-serif;
+  margin-bottom: 4em;
+  margin-top: 4em;
+}
+
+h2 {
+  font-size: 2em;
+  text-transform: uppercase;
+}
+
+h3 {
+  font-size: 1em;
+  text-transform: uppercase;
+}
+
+ul {
+  margin: 0;
+}
+
+form {
+  width: 100%;
+}
+
+fieldset {
+  border: none;
+}
+
+li {
+  margin: 1em 0;
+  list-style: none;
+}
+
+input {
+  margin-right: 1em;
+}
