@@ -53,7 +53,7 @@ async function addUser(req, res) {
     var query = await mysql.format(select, [body.email]);
 
     pool.query(query, async (err, rows) => {
-      if (rows["SUM(email)"] == null) {
+      if (rows == null) {
         var fName = body.fName;
         var lName = body.lName;
         var email = body.email;
