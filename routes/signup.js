@@ -89,6 +89,7 @@ async function addUser(req, res) {
         });
       } else {
         res.end("Email already in use");
+        console.log(rows);
       }
     });
   }
