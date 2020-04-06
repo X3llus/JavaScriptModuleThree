@@ -53,6 +53,9 @@ async function addUser(req, res) {
     var query = await mysql.format(select, [body.email]);
 
     pool.query(query, async (err, rows) => {
+      if (err) {
+        console.log(err);
+      }
       if (rows == null) {
         var fName = body.fName;
         var lName = body.lName;
