@@ -1,43 +1,8 @@
-// request to server to get all properties belonging to user
-function getProperties() {
-  var xml = new XMLHttpRequest();
-  xml.overrideMimeType("application/json");
-  xml.open('POST', 'profile', true);
-  xml.onreadystatechange =  () => {
-    if (xml.readyState == 4 && xml.status == 200) {
-      console.log(xml.responseText);
-      buildPropertyList(JSON.parse(xml.responseText));
-    }
-  };
-  xml.send(null);
-}
-
-// funciton to build a list of properties and display it
-function buildPropertyList(list) {
-
-  var properties = [];
-
-  for (var i = 0; i < list.length; i++) {
-    var current = list[i];
-    if (current.discount == "t") {
-      properties.push(new PropertyDiscount(current.id, current.title, current.price, current.address, current.bedrooms, current.bathrooms, current.image, current.ammenities, current.description, current["AVG(r.rating)"], current.superhost));
-    } else {
-      properties.push(new Property(current.id, current.title, current.price, current.address, current.bedrooms, current.bathrooms, current.image, current.ammenities, current.description, current["AVG(r.rating)"], current.superhost));
-    }
-    document.querySelector("ul").appendChild(properties[i].displayList);
-  }
-
-  document.getElementById("name").textContent = list[0].fName + " " + list[0].lName;
-
-}
-
-// call function
-getProperties();
-
 // property class
-class Property {
+class Property extends HTMLElement {
   // constructor, assigns variables
   constructor(id, title, price, location, bedrooms, bathrooms, image, amenities, description, rating, superhost) {
+    super();
     this.id = id;
     this.title = title;
     this.price = price;
@@ -53,11 +18,7 @@ class Property {
       this.rating = null;
     }
     this.superhost = superhost;
-  }
 
-  // get function, returns the object as an html element to be displayed
-  get displayList() {
-    var node = document.createElement("li");
     var anchorNode = document.createElement("a");
     var imageNode = document.createElement("img");
     var titleNode = document.createElement("h3");
@@ -99,10 +60,7 @@ class Property {
     divNode2.appendChild(descriptionNode);
     anchorNode.appendChild(imageNode);
     anchorNode.appendChild(divNode2)
-    node.appendChild(anchorNode);
-
-    return node;
-
+    this.appendChild(anchorNode);
   }
 }
 
@@ -113,3 +71,52 @@ class PropertyDiscount extends Property {
     this.price = (this.price * 0.8).toFixed(2) + " Discounted from $" + this.price;
   }
 }
+
+// request to server to get all properties belonging to user
+async function main() {
+  try {
+    var url = "profile";
+    var method = "POST";
+    var headers = {
+      "Content-Type": "application/json"
+    };
+
+    var res = await fetch(url, {
+      method: method,
+      headers: headers
+    });
+
+    if (!res.ok) {
+      throw Error(res.statusText);
+    }
+
+    buildPropertyList(await res.json());
+  } catch (e) {
+    console.log(e);
+  }
+
+}
+
+// funciton to build a list of properties and display it
+function buildPropertyList(list) {
+
+  var properties = [];
+
+  for (var i = 0; i < list.length; i++) {
+    var current = list[i];
+    if (current.discount == "t") {
+      document.querySelector("ul").appendChild(new PropertyDiscount(current.id, current.title, current.price, current.address, current.bedrooms, current.bathrooms, current.image, current.ammenities, current.description, current["AVG(r.rating)"], current.superhost));
+    } else {
+      document.querySelector("ul").appendChild(new Property(current.id, current.title, current.price, current.address, current.bedrooms, current.bathrooms, current.image, current.ammenities, current.description, current["AVG(r.rating)"], current.superhost));
+    }
+  }
+
+  document.getElementById("name").textContent = list[0].fName + " " + list[0].lName;
+
+}
+
+customElements.define("property-li", Property);
+customElements.define("property-dis-li", PropertyDiscount);
+
+// call function
+main();

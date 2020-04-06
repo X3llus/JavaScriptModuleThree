@@ -1,18 +1,31 @@
 // Requests the server to check if user is signed in
-function checkSignedIn() {
-  var xml = new XMLHttpRequest();
-  xml.overrideMimeType("application/json");
-  xml.open('GET', 'loggedIn', true);
-  xml.onreadystatechange =  () => {
-    if (xml.readyState == 4 && xml.status == 200) {
-      if (xml.responseText == "true") {
-        loggedIn();
-      } else {
-        notLoggedIn();
-      }
+async function checkSignedIn() {
+  try {
+    var url = "loggedIn";
+    var method = "GET";
+    var headers = {
+      "Content-Type": "application/json"
+    };
+
+    var res = await fetch(url, {
+      method: method,
+      headers: headers
+    });
+
+    var json = await res.json();
+
+    if (!res.ok) {
+      throw Error(res.statusText);
     }
-  };
-  xml.send(null);
+    if (json == true) {
+      loggedIn();
+    } else {
+      notLoggedIn();
+    }
+  } catch (e) {
+    console.log(e);
+  }
+
 }
 
 // function to add host, profile, and log out buttons
