@@ -56,7 +56,7 @@ async function addUser(req, res) {
       if (err) {
         console.log(err);
       }
-      if (rows == null) {
+      if (rows['SUM(email)'] == null) {
         var fName = body.fName;
         var lName = body.lName;
         var email = body.email;
