@@ -67,7 +67,8 @@ async function addUser(req, res) {
 
         pool.query(query, async (err, result) => {
           if (err) {
-            res.end(err);
+            console.log(err);
+            res.end("Signup failed");
           } else {
 
             var select = "SELECT id FROM users WHERE email = ?";
