@@ -1,4 +1,4 @@
-li a {
+property-li a, property-dis-li a {
   display: flex;
   background-color: #e6d7b3;
   margin: 1em;
@@ -8,7 +8,7 @@ li a {
   color: black;
 }
 
-li a:hover {
+property-li a:hover, property-dis-li a:hover {
   background-color: #ebddbc;
 }
 
@@ -16,7 +16,7 @@ ul {
   padding-left: 0;
 }
 
-li {
+property-li, property-dis-li {
   list-style: none;
 }
 
@@ -30,8 +30,6 @@ img {
   border-radius: .25em;
   color: #ebddbc;
   padding: .25em;
-  /* width: 8em; */
-  /* height:  auto; */
 }
 
 div div {

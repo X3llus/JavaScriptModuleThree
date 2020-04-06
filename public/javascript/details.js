@@ -1,24 +1,32 @@
 // Get the details of the selected property
-function getDetails() {
+async function getData() {
   const pId = (new URLSearchParams(window.location.search)).get("property");
-
   var data = JSON.stringify({
     id: pId
   });
-
-  var xml = new XMLHttpRequest();
-  xml.open('POST', 'details', true);
-  xml.setRequestHeader("Content-type", "application/json");
-  xml.onreadystatechange = () => {
-    if (xml.readyState == 4 && xml.status == 200) {
-      buildPage(JSON.parse(xml.responseText)[0]);
-    }
+  var url = "details";
+  var method = "POST";
+  var headers = {
+    "Content-Type": "application/json"
   };
-  xml.send(data);
+
+  var res = await fetch(url, {
+    method: method,
+    headers: headers,
+    body: data
+  });
+
+  if (!res.ok) {
+    throw Error(res.statusText);
+  }
+
+  return await res.json();
 }
 
 // Build the webpage (replace placeholder text)
 function buildPage(res) {
+  var res = res[0];
+  console.log(res);
   var title = document.getElementById("title");
   var owner = document.getElementById("owner");
   var price = document.getElementById("price");
@@ -37,7 +45,7 @@ function buildPage(res) {
     owner.textContent += " SUPERHOST";
   }
   price.textContent = "$" + res.price + " per night";
-  location.textContent =  res.location;
+  location.textContent =  res.address;
   if (res["AVG(r.rating)"] != null) {
     rating.textContent = res["AVG(r.rating)"] + "/5";
   }
@@ -49,6 +57,44 @@ function buildPage(res) {
   document.querySelectorAll("input[type=hidden]")[0].setAttribute("value", (new URLSearchParams(window.location.search)).get("property"));
   document.querySelectorAll("input[type=hidden]")[1].setAttribute("value", (new URLSearchParams(window.location.search)).get("property"));
 
+  return res.address;
+
+}
+
+// function to get the coordinates for address
+async function getLngLat(location) {
+  var key = "p5nE7vpUu74Flga2vPKXuMiGm6moHthA";
+  var url = `http://open.mapquestapi.com/geocoding/v1/address?key=${key}&location=${location}`;
+  var method = "POST";
+
+  var res = await fetch(url, {
+    method: method
+  });
+
+  if (!res.ok) {
+    throw Error(res.statusText);
+  }
+
+  var json = await res.json();
+  latLng = json.results[0].locations[0].latLng;
+
+  return latLng;
+}
+
+// builds the google map
+function makeMap(latLng) {
+  var map;
+  var location = {
+    lat: latLng.lat,
+    lng: latLng.lng
+  };
+
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: location,
+    zoom: 12
+  });
+
+  var locationMarker = new google.maps.Marker({position: location, map:map});
 }
 
 // Function found online to get all weeks of a set month and year
@@ -71,49 +117,64 @@ function getWeeksInMonth(month, year){
 }
 
 // Builds out the options for booking dates, removing already booked weeks
-function buildBookings() {
-
+async function getAvailibility() {
   const pId = (new URLSearchParams(window.location.search)).get("property");
+  var data = JSON.stringify({
+    id: pId
+  });
+  var url = "book/avail";
+  var method = "POST";
+  var headers = {
+    "Content-Type": "application/json"
+  };
+
+  var res = await fetch(url, {
+    method: method,
+    headers: headers,
+    body: data
+  });
+
+  if (!res.ok) {
+    throw Error(res.statusText);
+  }
+
+  return await res.json();
+}
+
+// Makes the bookings
+function makeBookings(avail) {
   const mList = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   var select = document.getElementById("dates");
   var thisMonth = getWeeksInMonth((new Date()).getMonth() + 1, (new Date()).getFullYear());
   var nextMonth = getWeeksInMonth((new Date()).getMonth() + 2, (new Date()).getFullYear());
+  var res = []
 
-  var data = JSON.stringify({
-    id: pId
-  });
-
-  var xml = new XMLHttpRequest();
-  xml.open('POST', 'book/avail', true);
-  xml.setRequestHeader("Content-type", "application/json");
-  xml.onreadystatechange = () => {
-    if (xml.readyState == 4 && xml.status == 200) {
-      var avail = JSON.parse(xml.responseText);
-      var res = []
-      for (var i = 0; i < avail.length; i++) {
-        res.push(avail[i].dates);
-      }
-      for (var i = 0; i < thisMonth.length; i++) {
-        if (!res.includes(`${mList[(new Date()).getMonth() + 1]} ${thisMonth[i].start} - ${thisMonth[i].end}`)) {
-          var option = document.createElement("option");
-          option.setAttribute("value", `${mList[(new Date()).getMonth() + 1]} ${thisMonth[i].start} - ${thisMonth[i].end}`);
-          option.textContent = `${mList[(new Date()).getMonth() + 1]} ${thisMonth[i].start} - ${thisMonth[i].end}`;
-          select.appendChild(option);
-        }
-      }
-      for (var i = 0; i < nextMonth.length; i++) {
-        if (!res.includes(`${mList[(new Date()).getMonth() + 2]} ${nextMonth[i].start} - ${nextMonth[i].end}`)) {
-          var option = document.createElement("option");
-          option.setAttribute("value", `${mList[(new Date()).getMonth() + 2]} ${nextMonth[i].start} - ${nextMonth[i].end}`);
-          option.textContent = `${mList[(new Date()).getMonth() + 2]} ${nextMonth[i].start} - ${nextMonth[i].end}`;
-          select.appendChild(option);
-        }
-      }
+  for (var i = 0; i < avail.length; i++) {
+    res.push(avail[i].dates);
+  }
+  for (var i = 0; i < thisMonth.length; i++) {
+    if (!res.includes(`${mList[(new Date()).getMonth() + 1]} ${thisMonth[i].start} - ${thisMonth[i].end}`)) {
+      var option = document.createElement("option");
+      option.setAttribute("value", `${mList[(new Date()).getMonth() + 1]} ${thisMonth[i].start} - ${thisMonth[i].end}`);
+      option.textContent = `${mList[(new Date()).getMonth() + 1]} ${thisMonth[i].start} - ${thisMonth[i].end}`;
+      select.appendChild(option);
     }
-  };
-  xml.send(data);
+  }
+  for (var i = 0; i < nextMonth.length; i++) {
+    if (!res.includes(`${mList[(new Date()).getMonth() + 2]} ${nextMonth[i].start} - ${nextMonth[i].end}`)) {
+      var option = document.createElement("option");
+      option.setAttribute("value", `${mList[(new Date()).getMonth() + 2]} ${nextMonth[i].start} - ${nextMonth[i].end}`);
+      option.textContent = `${mList[(new Date()).getMonth() + 2]} ${nextMonth[i].start} - ${nextMonth[i].end}`;
+      select.appendChild(option);
+    }
+  }
 }
 
 // Call my functions
-getDetails();
-buildBookings();
+getData()
+  .then(value => buildPage(value))
+  .then(value => getLngLat(value))
+  .then(value => makeMap(value))
+  .then(() => getAvailibility())
+  .then(value => makeBookings(value))
+  .catch(err => console.log(err));
